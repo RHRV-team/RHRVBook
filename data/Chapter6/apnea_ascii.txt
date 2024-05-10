@@ -1,0 +1,4 @@
+Init_Time	Resp_Events	Durat	SaO2
+00:01:30        GEN_HYPO	12.0	82.9
+00:04:00        OBS_APNEA	6.0	81.0
+00:06:00        GEN_HYPO	12.0	82.9
