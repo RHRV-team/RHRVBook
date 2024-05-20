@@ -1,6 +1,9 @@
 # Code for the book "Heart Rate Variability Analysis with the R package RHRV" (Springer's use R!)
 
 ## Databases and files used in the book (see `data`)
+* `data/Chapter2`: Databases used in Chapter 2:
+    * `data/Chapter2`: [European ST-T Database](https://physionet.org/content/edb/1.0.0/), Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... & Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220 (record e0115).
+    * `data/Chapter2/beat_ascii.txt`: [gHRV](https://milegroup.github.io/ghrv/packages.html)
 * `data/Chapter8`: Databases used in Chapter 8:
     * `data/Chapter8/chf`: [Congestive Heart Failure RR Interval Database](https://physionet.org/content/chf2db/1.0.0/), Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... & Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.
     * `data/Chapter8/normal`: [Normal Sinus Rhythm RR Interval Database](https://physionet.org/content/nsr2db/1.0.0/), Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... & Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.
