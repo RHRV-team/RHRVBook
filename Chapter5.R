@@ -1,7 +1,3 @@
-## ----chapter5_init,echo=FALSE,eval=TRUE,rlst=FALSE----------------------------
-opts_knit$set(self.contained = FALSE)
-
-
 ## ----chapter5_palette,echo=FALSE,rlst=FALSE-----------------------------------
 palette(c("#000000", "#E69F00", "#56B4E9", "#009E73", 
           "#F0E442", "#0072B2", "#D55E00", "#CC79A7"))

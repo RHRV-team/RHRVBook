@@ -1,7 +1,3 @@
-## ----chapter7_init,echo=FALSE,eval=TRUE,rlst=FALSE----------------------------
-opts_knit$set(self.contained=FALSE)
-
-
 ## ----chapter7_ObtainingOriginalRecordings, eval=FALSE-------------------------
 ## # HRVData structure containing the heart beats
 ## OriginDir <-

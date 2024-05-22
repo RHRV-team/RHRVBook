@@ -1,7 +1,3 @@
-## ----chapter4_init,echo=FALSE,message=FALSE,rlst=FALSE------------------------
-opts_knit$set(self.contained = FALSE)
-
-
 ## ----chapter4_readM2,echo=TRUE,rlst=T,fig.cap='Heart rate series from a volunteer breathing at a constant rate. Note the sinusal pattern.',fig.height=4,fig.width=7----
 hrv.data <- CreateHRVData()
 hrv.data <- LoadBeatWFDB(hrv.data,RecordName = "M2", 

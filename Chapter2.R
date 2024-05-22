@@ -1,7 +1,3 @@
-## ----chapter2_init,echo=FALSE,eval=TRUE,rlst=FALSE----------------------------
-opts_knit$set(self.contained=FALSE)
-
-
 ## ----chapter2_HRVDataStructure, eval=TRUE-------------------------------------
 # HRVData structure containing the heart beats
 library(RHRV)

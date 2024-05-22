@@ -1,11 +1,5 @@
-## ----chapter8_init,echo=FALSE,eval=TRUE,rlst=FALSE----------------------------
-opts_knit$set(self.contained=FALSE)
-
-
-## ----chapter8_RHRVEasy-prototype, eval=FALSE----------------------------------
-## 
-## #Prototype of the main RHRVEasy function.
-## 
+## ----chapter8_RHRVEasy-prototype, eval=FALSE, rlst=TRUE-----------------------
+## # Prototype of the main RHRVEasy function.
 ## RHRVEasy <-
 ##   function(folders,
 ##            verbose = FALSE,
@@ -20,8 +14,7 @@ opts_knit$set(self.contained=FALSE)
 ##            ...)
 
 
-## ----chapter8_RHRVEasy-output, eval=FALSE-------------------------------------
-## 
+## ----chapter8_RHRVEasy-output, eval=FALSE, rlst=TRUE--------------------------
 ## # Fragment of the output of a RHRVEasy object when
 ## # displayed on the console. The text output format
 ## # has been adapted to enhance its readability in the book.
@@ -41,158 +34,155 @@ opts_knit$set(self.contained=FALSE)
 ## ##                    [Bootstrap CI without adjustment]
 
 
-## ----chapter8_RHRVEasy-setup, eval=FALSE--------------------------------------
-## 
-## # Variables that contain the paths of the NSR_DB
-## # and the CHF_DB databases.
-## 
-## basePath <- "RRData/"
-## NSR_DB <- file.path(basePath, "normal")
-## CHF_DB <- file.path(basePath, "chf")
+## ----chapter8_RHRVEasy-setup, eval=TRUE---------------------------------------
+# Variables that contain the paths of the NSR_DB 
+# and the CHF_DB databases.
+library(RHRV)
+basePath <- "data/Chapter8"
+NSR_DB <- file.path(basePath, "normal")
+CHF_DB <- file.path(basePath, "chf")
 
 
-## ----chapter8_RHRVEasy_NSR_CHF, eval=FALSE------------------------------------
-## 
-## # Analysis of the NSR_DB and the CHF_DB databases
-## # using RHRVEasy.
-## 
-## easyAnalysis <- RHRVEasy(folders = c(NSR_DB, CHF_DB))
+## ----chapter8_RHRVEasy_NSR_CHF, eval=TRUE, warning=FALSE, message=FALSE, cache=TRUE----
+# Analysis of the NSR_DB and the CHF_DB databases 
+# using RHRVEasy.
+easyAnalysis <- RHRVEasy(folders = c(NSR_DB, CHF_DB))
 
 
-## ----chapter8_RHRVEasy_NSR_CHF_results, eval=FALSE----------------------------
-## # The analysis results are displayed in the console,
-## # including the first rows of the HRV indices,
-## # and the statistical tests.
-## 
-## print(easyAnalysis)
-## head(easyAnalysis$HRVIndices)
-## head(easyAnalysis$stats)
+## ----chapter8_to_tibble, rlst=FALSE, echo=FALSE-------------------------------
+easyAnalysis$HRVIndices  <- tibble::as_tibble(easyAnalysis$HRVIndices)
 
 
-## ----chapter8_RHRVEasy_NSR_CHF_results_wavelet, eval=FALSE--------------------
-## 
-## # Analysis of the NSR_DB and the CHF_DB databases using
-## # the wavelet transform for frequency indices calculation.
-## 
-## easyAnalysisWavelet <- RHRVEasy(folders = c(NSR_DB, CHF_DB),
-##                                 typeAnalysis = "wavelet")
+## ----chapter8_RHRVEasy_NSR_CHF_results, eval=TRUE, rlst=TRUE, out.lines=10----
+# Print output adapted for brevity
+print(easyAnalysis)
+# The analysis results can also be accessed using the 
+# slots $HRVIndices and $stats. For HRVIndices, show only
+# the first 6 columns
+head(easyAnalysis$HRVIndices[, 1:6])
+head(easyAnalysis$stats)
 
 
-## ----chapter8_RHRVEasy_NSR_CHF_results_excel, eval=FALSE----------------------
-## 
-## # When specifying a value for the argument saveHRVIndicesInPath,
-## # an Excel file with the HRV indices is created at the path
-## # specified by the argument
-## 
-## spreadsheetPath <- basePath
-## easyAnalysis <- RHRVEasy(folders = c(NSR_DB, CHF_DB),
-##                          saveHRVIndicesInPath = spreadsheetPath)
+## ----chapter8_RHRVEasy_NSR_CHF_results_wavelet, warning=FALSE, message=FALSE, cache=TRUE----
+# Analysis of the NSR_DB and the CHF_DB databases using 
+# the wavelet transform for frequency indices calculation.
+easyAnalysisWavelet <- RHRVEasy(folders = c(NSR_DB, CHF_DB), 
+                                typeAnalysis = "wavelet")
 
 
-## ----chapter8_RHRVEasy_NSR_CHF_results_excel2, eval=FALSE---------------------
-## 
-## # The HRV indices contained in a RHRVEasy object called
-## # easyAnalysis are saved in an Excel file at the specified path
-## 
-## saveHRVIndices(easyAnalysis,
-##                saveHRVIndicesInPath = spreadsheetPath)
-## 
+## ----chapter8_RHRVEasy_NSR_CHF_results_excel, message=FALSE, warning=FALSE, cache=TRUE----
+# When specifying a value for the argument saveHRVIndicesInPath, 
+# an Excel file with the HRV indices is created at the path 
+# specified by the argument
+spreadsheetPath <- basePath
+easyAnalysis <- RHRVEasy(folders = c(NSR_DB, CHF_DB), 
+                         saveHRVIndicesInPath = spreadsheetPath)
 
 
-## ----chapter8_RHRVEasy_NSR_CHF_results_fdr, eval=FALSE------------------------
-## 
-## #The false discovery rate ("fdr") method is employed
-## #to adjust for significance level
-## 
-## easyAnalysisFDR <- RHRVEasy(folders = c(NSR_DB, CHF_DB),
-##                             correctionMethod =  "fdr")
-## print(easyAnalysisFDR)
+## ----chapter8_RHRVEasy_NSR_CHF_results_excel2, message=FALSE, warning=FALSE, cache=TRUE----
+# The HRV indices contained in a RHRVEasy object called 
+# easyAnalysis are saved in an Excel file at the specified path
+SaveHRVIndices(easyAnalysis,
+               saveHRVIndicesInPath = spreadsheetPath)
 
 
-## ----chapter8_RHRVEasy_NSR_CHF_results_fdr_bondf, eval=FALSE------------------
-## 
-## # The "fdr" correction method is applied over the p-values
-## # contained in the object easyAnalysis, (which was created
-## # using the "Bonferoni" correction)
-## 
-## easyAnalysisFDR <- RHRVEasyStats(easyAnalysis,
-##                                  correctionMethod =  "fdr")
-## pValues <- merge(
-##   easyAnalysis$stats,
-##   easyAnalysisFDR$stats,
-##   by = setdiff(names(easyAnalysis$stats), "adj.p.value"),
-##   suffixes = c(".bonf", ".fdr")
-## )
-## 
-## # A comparison of the p-values without correction,
-## # and applying both corrections is shown in the console
-## print(
-##   head(
-##     pValues[, c("HRVIndex", "p.value",
-##                 "adj.p.value.bonf", "adj.p.value.fdr")]
-##   )
-## )
+## ----chapter8_RHRVEasy_NSR_CHF_results_fdr, message=FALSE, warning=FALSE, cache=TRUE,results='hide'----
+# The false discovery rate ("fdr") method is employed 
+# to adjust for significance level
+easyAnalysisFDR <- RHRVEasy(folders = c(NSR_DB, CHF_DB),  
+                            correctionMethod =  "fdr")
+print(easyAnalysisFDR)
 
 
-## ----chapter8_chapter8_RHRVEasy-setup2, eval=FALSE----------------------------
-## 
-## # Variables that contain the paths of the NSR_HALF_DB
-## # and the CHF_HALF_DB databases.
-## 
-## NSR_HALF_DB <- file.path(basePath, "normal_half")
-## CHF_HALF_DB <- file.path(basePath, "chf_half")
+## ----chapter8_RHRVEasy_NSR_CHF_results_fdr_bondf, message=FALSE, warning=FALSE----
+# The "fdr" correction method is applied over the p-values 
+# contained in the object easyAnalysis, (which was created 
+# using the "bonferroni" correction)
+easyAnalysisFDR <- RHRVEasyStats(easyAnalysis, 
+                                 correctionMethod =  "fdr")
+pValues <- merge(
+  easyAnalysis$stats, 
+  easyAnalysisFDR$stats,
+  by = setdiff(names(easyAnalysis$stats), "adj.p.value"),
+  suffixes = c(".bonf", ".fdr")
+)
+pValues <- pValues[, c("HRVIndex", "p.value", 
+                       "adj.p.value.bonf", "adj.p.value.fdr")]
+pValues[, 2:4] <- round(pValues[, 2:4], 4)
+#A comparison of the p-values without correction, 
+# and applying both corrections is shown in the console
+print(head(pValues))
 
 
-## ----chapter8_RHRVEasy_multiple_goups, eval=FALSE-----------------------------
-## # HRV analysis involving four different experimental groups
-## easyAnalysis4 <-
-##   RHRVEasy(folders = c(NSR_DB, CHF_DB,
-##                        NSR_HALF_DB, CHF_HALF_DB))
-## print(easyAnalysis4)
+## ----chapter8_healthy_download, cache=TRUE------------------------------------
+# paste0 is just used to split the long url
+orig <- paste0(
+  "https://www.physionet.org/files/",
+  "rr-interval-healthy-subjects/1.0.0/"
+)
+dest <- file.path(basePath, "healthy_ms")
+# Create folder dest if not exists 
+if (!dir.exists(dest)) {
+  dir.create(dest)
+}
+files <- c("000.txt",  "003.txt",  "005.txt",  "006.txt", 
+           "007.txt", "008.txt",  "009.txt",  "010.txt", 
+           "013.txt") 
+
+for (file in files) {
+  download.file(paste0(orig, file), file.path(dest, file))
+}
 
 
-## ----chapter8_RHRVEasy_multiple_goups_results, eval=FALSE---------------------
-## ## Significant differences in SDANN (Kruskal-Wallis rank
-## ## sum test, bonferroni p-value = 1.942718e-08):
-## ##   Significant differences in the post-hoc tests
-## ## (Dunn's all-pairs test + bonferroni-p-value adjustment):
-## ##       group1      group2   adj.p.value
-## ##     1 normal      chf       0.00000297
-## ##     2 normal      chf_half  0.00209
-## ##     3 normal_half chf       0.0000845
-## ##     4 normal_half chf_half  0.00557
-## ##     ----------------------------------
-## ##     chf's mean95% CI: (47.4665, 81.30389)
-## ##               [Bootstrap CI without adjustment]
-## ##     chf_half's mean95% CI: (36.01583, 82.96835)
-## ##               [Bootstrap CI without adjustment]
-## ##     normal's mean95% CI: (121.1845, 138.7499)
-## ##               [Bootstrap CI without adjustment]
-## ##     normal_half's mean95% CI: (116.6269, 150.1461)
-## ##               [Bootstrap CI without adjustment]
-## 
+## ----chapter8_healthy_conversion----------------------------------------------
+orig <- file.path(basePath, "healthy_ms")
+HEALTHY_DB <- file.path(basePath, "healthy")
+# Create folder dest if not exists 
+if (!dir.exists(HEALTHY_DB)) {
+  dir.create(HEALTHY_DB)
+}
+for (file in list.files(orig)) {
+  rrs_ms <- read.table(file.path(orig, file))
+  rrs_ms <- rrs_ms$V1
+  # Recording 008 contains an @
+  rrs_ms <- as.numeric(rrs_ms[rrs_ms != "@"])
+  # Convert from milliseconds to seconds
+  write.table(rrs_ms / 1000, file.path(HEALTHY_DB, file), 
+              row.names = FALSE, col.names = FALSE)
+}
 
 
-## ----chapter8_RHRVEasy_non_linear, eval=FALSE---------------------------------
-## 
-## # Analysis of the four databases calculating all
+## ----chapter8_RHRVEasy_multiple_groups, warning=FALSE, message=FALSE, cache=TRUE, out.lines=10----
+easyAnalysis3 <- 
+  RHRVEasy(folders = c(NSR_DB, CHF_DB, HEALTHY_DB))
+# Print output adapted for brevity
+print(easyAnalysis3)
+
+
+## ----chapter8_RHRVEasy_posthoc_df---------------------------------------------
+print(head(easyAnalysis3$stats))
+# Let's print the results of the post-hoc tests for 
+# the SDNN index
+easyAnalysis3$stats[easyAnalysis3$stats$HRVIndex == "SDNN", ]$pairwise[[1]]
+
+
+## ----chapter8_RHRVEasy_non_linear, warning=F, message=FALSE, cache=TRUE, eval=FALSE, rlst=TRUE----
+## # Analysis of the three databases calculating all
 ## # the non-linear indices
-## 
 ## fullAnalysis <- RHRVEasy(
-##   folders = c(NSR_DB, CHF_DB, NSR_HALF_DB, CHF_HALF_DB),
+##   folders = c(NSR_DB, CHF_DB, HEALTHY_DB),
 ##   nonLinear = TRUE,
 ##   doRQA = TRUE,
 ## )
-## print (fullAnalysis)
+## # Print output adapted for brevity
+## print(fullAnalysis)
 
 
-## ----chapter8_RHRVEasy_non_linear_parallel, eval=FALSE------------------------
-## 
+## ----chapter8_RHRVEasy_non_linear_parallel, eval=FALSE, rlst=TRUE-------------
 ## #Parallelized analysis of the four databases
 ## #using 8 cores
-## 
 ## fullAnalysis <- RHRVEasy(
-##   folders = c(NSR_DB, CHF_DB, NSR_HALF_DB, CHF_HALF_DB),
+##   folders = c(NSR_DB, CHF_DB, HEALTHY_DB),
 ##   nonLinear = TRUE,
 ##   doRQA = TRUE,
 ##   nJobs = 8

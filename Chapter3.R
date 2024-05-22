@@ -1,7 +1,3 @@
-## ----chapter3_init,echo=FALSE,eval=TRUE,rlst=FALSE----------------------------
-opts_knit$set(self.contained=FALSE)
-
-
 ## ----chapter3_CreateTimeAnalysis, eval=TRUE-----------------------------------
 
 # Creating time analysis for the hrv.data3 structure created in chapter 2.
